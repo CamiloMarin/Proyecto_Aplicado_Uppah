@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "760913153185",
+    "project_id": "uppah-8ec2b",
+    "storage_bucket": "uppah-8ec2b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:760913153185:android:b3a48bd5e7530751db74e0",
+        "android_client_info": {
+          "package_name": "com.example.uppah_0_0_0"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "760913153185-t9dhf9bj94jpjq0pvjh5ul02m2o8hm73.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCr76w_CIdcpqNGKQO_apBJ_dVRhJ_0mzI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "760913153185-t9dhf9bj94jpjq0pvjh5ul02m2o8hm73.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
