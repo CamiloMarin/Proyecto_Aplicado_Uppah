@@ -1,10 +1,11 @@
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:http/http.dart' as http;
+import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:uppah_0_0_0/pages/home_page.dart';
 
 class GymPage extends StatefulWidget {
   const GymPage({super.key});
@@ -19,7 +20,13 @@ class _GymPageState extends State<GymPage> {
   String? value_dias;
   final nameController = TextEditingController();
   final documentController = TextEditingController();
-  final turnos = ['1: 6-8', '2: 8-10', '3: 10-12', '4: 12-2', '5: 2-4'];
+  final turnos = [
+    'Turno 1: 6-8',
+    'Turno 2: 8-10',
+    'Turno 3: 10-12',
+    'Turno 4: 12-2',
+    'Turno 5: 2-4'
+  ];
   final dias = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes'];
 
   @override
@@ -130,24 +137,71 @@ class _GymPageState extends State<GymPage> {
     required String day,
     required String turno,
   }) async {
-    final serviceId = 'service_qy3akdl';
-    final templateId = 'template_g83pglh';
-    final userId = 'nX8t3p1R01BvHvjYr';
-    final url = Uri.parse('https://api.emailjs.com/api/v1.0/email/send');
+    if (name != '' && document != '' && day != '' && turno != '') {
+      final serviceId = 'service_qy3akdl';
+      final templateId = 'template_g83pglh';
+      final userId = 'nX8t3p1R01BvHvjYr';
+      final userEmail = FirebaseAuth.instance.currentUser!.email;
+      final url = Uri.parse('https://api.emailjs.com/api/v1.0/email/send');
 
-    var response = await http.post(url,
-        headers: {
-          'origin': 'http://localhost',
-          'Content-Type': 'application/json',
-        },
-        body: json.encode({
-          'service_id': serviceId,
-          'template_id': templateId,
-          'user_id': userId,
-          'template_params': {
-            'horario': turno,
-          }
-        }));
+      var response = await http.post(url,
+          headers: {
+            'origin': 'http://localhost',
+            'Content-Type': 'application/json',
+          },
+          body: json.encode({
+            'service_id': serviceId,
+            'template_id': templateId,
+            'user_id': userId,
+            'template_params': {
+              'horario': turno,
+              'reply_to': userEmail,
+              'from_name': name,
+              'document': document,
+              'day': day,
+            }
+          }));
+      Alert(
+        //se puede usar el atributo de style
+        type: AlertType.success,
+        context: context,
+        title: "Correo enviado",
+        desc: "Recuerda revisar tu bandeja de spam!",
+        buttons: [
+          DialogButton(
+            child: Text(
+              "Listo!",
+              style: TextStyle(color: Colors.white, fontSize: 20),
+            ),
+            onPressed: () {
+              Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: ((context) => const HomePage())),
+                  (route) => false);
+            },
+            width: 120,
+          )
+        ],
+      ).show();
+    } else {
+      Alert(
+        //se puede usar el atributo de style
+        type: AlertType.error,
+        context: context,
+        title: "Campos insuficientes",
+        desc: "Debes rellenar todos los campos para enviar el correo!",
+        buttons: [
+          DialogButton(
+            child: Text(
+              "Listo!",
+              style: TextStyle(color: Colors.white, fontSize: 20),
+            ),
+            onPressed: () => Navigator.pop(context),
+            width: 120,
+          )
+        ],
+      ).show();
+    }
   }
 
   DropdownMenuItem<String> buildMenuItem(String item) => DropdownMenuItem(
