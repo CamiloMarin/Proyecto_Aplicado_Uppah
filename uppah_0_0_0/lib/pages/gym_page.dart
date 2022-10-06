@@ -16,6 +16,8 @@ class GymPage extends StatefulWidget {
 
 class _GymPageState extends State<GymPage> {
   String myFirstName = '';
+  String myLastName = '';
+  String myDocument = '';
   String? value;
   String? value_dias;
   final nameController = TextEditingController();
@@ -50,15 +52,6 @@ class _GymPageState extends State<GymPage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Column(
-                  children: [
-                    buildTextField(
-                        title: 'Nombres y apellidos',
-                        controller: nameController),
-                    buildTextField(
-                        title: 'Cédula', controller: documentController)
-                  ],
-                ),
                 Text(
                   'Elige el día',
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
@@ -101,8 +94,6 @@ class _GymPageState extends State<GymPage> {
                 SizedBox(height: 25),
                 GestureDetector(
                   onTap: () => sendEmail(
-                    name: nameController.text,
-                    document: documentController.text,
                     day: value_dias.toString(),
                     turno: value.toString(),
                   ),
@@ -132,16 +123,17 @@ class _GymPageState extends State<GymPage> {
   }
 
   Future sendEmail({
-    required String name,
-    required String document,
     required String day,
     required String turno,
   }) async {
-    if (name != '' && document != '' && day != '' && turno != '') {
+    if (day != 'null' && turno != 'null') {
       final serviceId = 'service_qy3akdl';
       final templateId = 'template_g83pglh';
       final userId = 'nX8t3p1R01BvHvjYr';
       final userEmail = FirebaseAuth.instance.currentUser!.email;
+      final userDocument = myDocument;
+      String nameFinal = myFirstName + ' ' + myLastName;
+      final name = nameFinal;
       final url = Uri.parse('https://api.emailjs.com/api/v1.0/email/send');
 
       var response = await http.post(url,
@@ -157,7 +149,7 @@ class _GymPageState extends State<GymPage> {
               'horario': turno,
               'reply_to': userEmail,
               'from_name': name,
-              'document': document,
+              'document': userDocument,
               'day': day,
             }
           }));
@@ -166,19 +158,15 @@ class _GymPageState extends State<GymPage> {
         type: AlertType.success,
         context: context,
         title: "Correo enviado",
-        desc: "Recuerda revisar tu bandeja de spam!",
+        desc:
+            "Tu reserva se envió con éxito, recuerda estar pendiente de tu correo para ver la respuesta",
         buttons: [
           DialogButton(
             child: Text(
               "Listo!",
               style: TextStyle(color: Colors.white, fontSize: 20),
             ),
-            onPressed: () {
-              Navigator.pushAndRemoveUntil(
-                  context,
-                  MaterialPageRoute(builder: ((context) => const HomePage())),
-                  (route) => false);
-            },
+            onPressed: () => Navigator.pop(context),
             width: 120,
           )
         ],
@@ -245,6 +233,8 @@ class _GymPageState extends State<GymPage> {
         .get()
         .then((docSnapshot) {
       myFirstName = docSnapshot.data()!['Nombres'];
+      myLastName = docSnapshot.data()!['Apellidos'];
+      myDocument = docSnapshot.data()!['Cedula'];
     });
   }
 }
