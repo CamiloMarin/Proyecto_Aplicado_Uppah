@@ -10,7 +10,7 @@ showAlertDialogWrongEmail(BuildContext context) {
   // set up the AlertDialog
   AlertDialog alert = AlertDialog(
     title: Text("Correo inválido"),
-    content: Text("Tu correo debe terminar en @soyudemedellin.edu.co"),
+    content: Text("Debes ingresar un correo institucional válido"),
     actions: [
       cancelButton,
     ],

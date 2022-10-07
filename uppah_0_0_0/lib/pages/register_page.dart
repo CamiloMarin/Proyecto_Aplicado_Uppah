@@ -1,8 +1,10 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:http/http.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
 import '../utils/alerts.dart';
@@ -19,6 +21,17 @@ class _RegisterPageState extends State<RegisterPage> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _confirmpasswordController = TextEditingController();
+  final _firstNameController = TextEditingController();
+  final _lastNameController = TextEditingController();
+  final _documentController = TextEditingController();
+  final careers = [
+    'Comunicación y Entretenimiento Digital',
+    'Comunicación y Lenguajes Audiovisuales',
+    'Comunicación Gráfica Publicitaria',
+    'Comunicación y Relaciones Corporativas',
+    'Derecho'
+  ];
+  String? value;
 
   @override
   void dispose() {
@@ -26,6 +39,8 @@ class _RegisterPageState extends State<RegisterPage> {
     _emailController.dispose();
     _passwordController.dispose();
     _confirmpasswordController.dispose();
+    _firstNameController.dispose();
+    _lastNameController.dispose();
     super.dispose();
   }
 
@@ -40,14 +55,24 @@ class _RegisterPageState extends State<RegisterPage> {
   }
 
   Future signUp() async {
+    //Authenticate user and checks
     if (checkUdeM()) {
       if (passwordConfirmed()) {
         if (_passwordController.text.length == 6 &&
             isNumeric(_passwordController.text)) {
           try {
+            //create user
             await FirebaseAuth.instance.createUserWithEmailAndPassword(
                 email: _emailController.text.trim(),
                 password: _passwordController.text.trim());
+            //add user details
+            addUserDetails(
+              _firstNameController.text.trim(),
+              _lastNameController.text.trim(),
+              _documentController.text.trim(),
+              value.toString(),
+              _emailController.text.trim(),
+            );
           } on FirebaseAuthException catch (e) {
             if (e.code == 'weak-password') {
               Alert(
@@ -98,6 +123,22 @@ class _RegisterPageState extends State<RegisterPage> {
     }
   }
 
+  Future addUserDetails(String firstName, String lastName, String document,
+      String career, String email) async {
+    var firebaseUser = await FirebaseAuth.instance.currentUser!;
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(firebaseUser.uid)
+        .set({
+      'Nombres': firstName,
+      'Apellidos': lastName,
+      'Cedula': document,
+      'Carrera': career,
+      'Correo': email,
+      'UID': firebaseUser.uid,
+    });
+  }
+
   bool passwordConfirmed() {
     if (_passwordController.text.trim() ==
         _confirmpasswordController.text.trim()) {
@@ -122,29 +163,122 @@ class _RegisterPageState extends State<RegisterPage> {
             child:
                 Column(mainAxisAlignment: MainAxisAlignment.center, children: [
               Image(
-                  image: AssetImage('assets/logo_uppah_large.png'),
-                  height: 200,
-                  width: 200),
+                  image: AssetImage('assets/uppah_simple_orange.png'),
+                  height: 80,
+                  width: 80),
               //Hello again!
               Text(
-                'Bienvenido,',
+                'Bienvenid@,',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
-                  fontSize: 36,
+                  fontSize: 25,
                 ),
               ),
               SizedBox(height: 10),
               Text(
                 'regístrate y mejora tu experiencia universitaria',
                 style: TextStyle(
-                  fontSize: 20,
+                  fontSize: 15,
                 ),
                 textAlign: TextAlign.center,
               ),
-              SizedBox(height: 50),
+              SizedBox(height: 20),
+              //Name textfield
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 50.0),
+                child: TextField(
+                  controller: _firstNameController,
+                  decoration: InputDecoration(
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: BorderSide(color: Colors.white),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: BorderSide(color: Colors.orange),
+                    ),
+                    hintText: 'Nombres',
+                    hintStyle: TextStyle(color: Colors.grey[400]),
+                    fillColor: Colors.grey[200],
+                    filled: true,
+                  ),
+                ),
+              ),
+              SizedBox(height: 20),
+              //Lastname textfield
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 50.0),
+                child: TextField(
+                  controller: _lastNameController,
+                  decoration: InputDecoration(
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: BorderSide(color: Colors.white),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: BorderSide(color: Colors.orange),
+                    ),
+                    hintText: 'Apellidos',
+                    hintStyle: TextStyle(color: Colors.grey[400]),
+                    fillColor: Colors.grey[200],
+                    filled: true,
+                  ),
+                ),
+              ),
+              SizedBox(height: 20),
+
+              //document textfield
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 50.0),
+                child: TextField(
+                  obscureText: false,
+                  controller: _documentController,
+                  decoration: InputDecoration(
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: BorderSide(color: Colors.white),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: BorderSide(color: Colors.orange),
+                    ),
+                    hintText: 'Cédula',
+                    hintStyle: TextStyle(color: Colors.grey[400]),
+                    fillColor: Colors.grey[200],
+                    filled: true,
+                  ),
+                  keyboardType: TextInputType.number,
+                  inputFormatters: <TextInputFormatter>[
+                    FilteringTextInputFormatter.digitsOnly,
+                    LengthLimitingTextInputFormatter(11),
+                  ],
+                ),
+              ),
+              SizedBox(height: 20),
+              //Career textfield
+              Container(
+                margin: EdgeInsets.symmetric(horizontal: 50, vertical: 5),
+                padding: EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                decoration: BoxDecoration(
+                  color: Colors.grey[200],
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: DropdownButtonHideUnderline(
+                  child: DropdownButton<String>(
+                    hint: Text("Carrera"),
+                    dropdownColor: Colors.white,
+                    value: value,
+                    isExpanded: true,
+                    items: careers.map(buildMenuItem).toList(),
+                    onChanged: (value) => setState(() => this.value = value),
+                  ),
+                ),
+              ),
+              SizedBox(height: 20),
               //Email textfield
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                padding: const EdgeInsets.symmetric(horizontal: 50.0),
                 child: TextField(
                   controller: _emailController,
                   decoration: InputDecoration(
@@ -167,7 +301,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
               //password textfield
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                padding: const EdgeInsets.symmetric(horizontal: 50.0),
                 child: TextField(
                   obscureText: true,
                   controller: _passwordController,
@@ -196,7 +330,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
               //password confirm textfield
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                padding: const EdgeInsets.symmetric(horizontal: 50.0),
                 child: TextField(
                   obscureText: true,
                   controller: _confirmpasswordController,
@@ -226,22 +360,15 @@ class _RegisterPageState extends State<RegisterPage> {
               //sign_in
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                child: GestureDetector(
-                  onTap: signUp,
-                  child: Container(
-                    padding: EdgeInsets.all(20),
-                    decoration: BoxDecoration(
-                        color: Colors.orange[900],
-                        borderRadius: BorderRadius.circular(12)),
-                    child: Center(
-                      child: Text(
-                        'Registrarse',
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18),
-                      ),
-                    ),
+                child: SizedBox(
+                  width: 150,
+                  height: 50,
+                  child: ElevatedButton(
+                    child: Text('Registrarse'),
+                    style: ElevatedButton.styleFrom(
+                        textStyle: const TextStyle(fontSize: 18)),
+
+                    onPressed: signUp, //signUp,
                   ),
                 ),
               ),
@@ -261,21 +388,40 @@ class _RegisterPageState extends State<RegisterPage> {
                   GestureDetector(
                     onTap: widget.showLoginPage,
                     child: Text(
-                      'Ingresa ahora',
+                      ' Ingresa ahora',
                       style: TextStyle(
-                        color: Colors.blue,
+                        color: Color.fromARGB(255, 255, 106, 0),
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                   ),
                 ],
-              )
+              ),
+              SizedBox(height: 50),
             ]),
           ),
         ),
       ),
     );
   }
+
+  MaterialStateProperty<Color> getColor(Color color, Color colorPressed) {
+    final getColor = (Set<MaterialState> states) {
+      if (states.contains(MaterialState.pressed)) {
+        return colorPressed;
+      } else {
+        return color;
+      }
+    };
+    return MaterialStateProperty.resolveWith(getColor);
+  }
+
+  DropdownMenuItem<String> buildMenuItem(String item) => DropdownMenuItem(
+      value: item,
+      child: Text(
+        item,
+        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+      ));
 }
 
 /* showAlertDialog(BuildContext context) {

@@ -19,8 +19,19 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Material App',
-      theme: ThemeData(useMaterial3: true),
+      debugShowCheckedModeBanner: false,
+      title: 'Uppah',
+      theme: ThemeData(
+          elevatedButtonTheme: ElevatedButtonThemeData(
+              style: ElevatedButton.styleFrom(
+        elevation: 8,
+        backgroundColor: Colors.white,
+        onPrimary: Color.fromARGB(255, 255, 106, 0),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20),
+        ),
+        side: BorderSide(color: Color.fromARGB(255, 255, 106, 0)),
+      ))),
       home: MainPage(),
     );
   }

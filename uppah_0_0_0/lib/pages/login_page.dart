@@ -100,7 +100,7 @@ class _LoginPageState extends State<LoginPage> {
             child:
                 Column(mainAxisAlignment: MainAxisAlignment.center, children: [
               Image(
-                  image: AssetImage('assets/logo_uppah_large.png'),
+                  image: AssetImage('assets/uppah_simple_orange.png'),
                   height: 200,
                   width: 200),
               //Hello again!
@@ -122,7 +122,7 @@ class _LoginPageState extends State<LoginPage> {
               SizedBox(height: 50),
               //Email textfield
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                padding: const EdgeInsets.symmetric(horizontal: 50.0),
                 child: TextField(
                   controller: _emailController,
                   decoration: InputDecoration(
@@ -134,7 +134,7 @@ class _LoginPageState extends State<LoginPage> {
                       borderRadius: BorderRadius.circular(12),
                       borderSide: BorderSide(color: Colors.orange),
                     ),
-                    hintText: 'tucorreo@soyudemedellin.edu.co',
+                    hintText: 'Tu correo institucional',
                     fillColor: Colors.grey[200],
                     filled: true,
                   ),
@@ -144,7 +144,7 @@ class _LoginPageState extends State<LoginPage> {
 
               //password textfield
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                padding: const EdgeInsets.symmetric(horizontal: 50.0),
                 child: TextField(
                   obscureText: true,
                   controller: _passwordController,
@@ -157,7 +157,7 @@ class _LoginPageState extends State<LoginPage> {
                       borderRadius: BorderRadius.circular(12),
                       borderSide: BorderSide(color: Colors.orange),
                     ),
-                    hintText: 'contraseña',
+                    hintText: 'Tu contraseña',
                     fillColor: Colors.grey[200],
                     filled: true,
                   ),
@@ -173,22 +173,15 @@ class _LoginPageState extends State<LoginPage> {
               //sign_in
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                child: GestureDetector(
-                  onTap: signIn,
-                  child: Container(
-                    padding: EdgeInsets.all(20),
-                    decoration: BoxDecoration(
-                        color: Colors.orange[900],
-                        borderRadius: BorderRadius.circular(12)),
-                    child: Center(
-                      child: Text(
-                        'Entrar',
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18),
-                      ),
-                    ),
+                child: SizedBox(
+                  width: 150,
+                  height: 50,
+                  child: ElevatedButton(
+                    child: Text('Entrar'),
+                    style: ElevatedButton.styleFrom(
+                        textStyle: const TextStyle(fontSize: 18)),
+
+                    onPressed: signIn, //signUp,
                   ),
                 ),
               ),
@@ -208,9 +201,9 @@ class _LoginPageState extends State<LoginPage> {
                   GestureDetector(
                     onTap: widget.showRegisterPage,
                     child: Text(
-                      'Registrate ahora',
+                      ' Registrate ahora',
                       style: TextStyle(
-                        color: Colors.blue,
+                        color: Color.fromARGB(255, 255, 106, 0),
                         fontWeight: FontWeight.bold,
                       ),
                     ),
