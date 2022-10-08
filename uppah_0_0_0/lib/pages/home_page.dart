@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:uppah_0_0_0/pages/gym_page.dart';
+import 'package:uppah_0_0_0/pages/digital_card_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -109,7 +110,14 @@ class _HomePageState extends State<HomePage> {
                         Column(
                           children: [
                             IconButton(
-                              onPressed: null,
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const DigitalCard()),
+                                );
+                              },
                               icon: Image.asset("assets/BotonCarnet.png"),
                               iconSize: 80.0,
                             ),

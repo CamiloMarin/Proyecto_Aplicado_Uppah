@@ -44,6 +44,8 @@ dependencies:
 
   #Fonts
   google_fonts: ^2.0.0
+  flutter_nfc_kit: ^3.2.0
+  ndef: ^0.3.1
 
 
 dev_dependencies:
