@@ -9,6 +9,9 @@ import 'package:google_fonts/google_fonts.dart';
 // Paginas
 import 'package:uppah_0_0_0/pages/home_page.dart';
 
+// nfc - ndef y su modo de operacion ()
+// import 'package:flutter_nfc_kit/flutter_nfc_kit.dart' as ios;
+
 class DigitalCard extends StatefulWidget {
   const DigitalCard({super.key});
 
@@ -98,10 +101,6 @@ class _DigitalCardState extends State<DigitalCard> {
                       IconButton(
                         onPressed: () {
                           // Se activa el nfc
-                          child
-
-
-
                         },
                         icon: Image.asset("assets/unlocked (1).png"),
                         iconSize: 100.0,
