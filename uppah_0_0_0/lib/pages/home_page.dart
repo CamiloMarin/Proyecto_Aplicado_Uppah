@@ -3,8 +3,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:scroll_snap_list/scroll_snap_list.dart';
 import 'package:uppah_0_0_0/pages/gym_page.dart';
 import 'package:uppah_0_0_0/pages/digital_card_page.dart';
+import 'package:uppah_0_0_0/pages/profile_page.dart';
+import 'package:uppah_0_0_0/utils/invest_groups.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -19,12 +22,40 @@ class _HomePageState extends State<HomePage> {
   String myFirstName = '';
   String myEmail = '';
 
+  List<InvestGroups> investGroupsList = [
+    InvestGroups('assets/grupos_investigacion_1.jpg', 'Educación',
+        'Estudiantes hacen coso'),
+    InvestGroups('assets/grupos_investigacion_2.jpg', 'Educación',
+        'Estudiantes hacen coso'),
+    InvestGroups('assets/grupos_investigacion_3.jpg', 'Educación',
+        'Estudiantes hacen coso'),
+    InvestGroups('assets/grupos_investigacion_3.jpg', 'Educación',
+        'Estudiantes hacen coso'),
+    InvestGroups('assets/grupos_investigacion_3.jpg', 'Educación',
+        'Estudiantes hacen coso'),
+  ];
+
+  late Future dataFetch;
+  late Future profileImageFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    dataFetch = _getDataFetch();
+    //profileImageFuture = getDownloadUrl(context);
+  }
+
+  _getDataFetch() async {
+    return _fetch();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
+            //mainAxisSize: MainAxisSize.max,
             //mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Padding(
@@ -43,7 +74,13 @@ class _HomePageState extends State<HomePage> {
                         ),
                         // Spacer(),
                         IconButton(
-                          onPressed: null,
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const ProfilePage()),
+                            );
+                          },
                           icon: Image.asset("assets/BotonPerfil.png"),
                           iconSize: 50.0,
                         ),
@@ -74,7 +111,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                   FutureBuilder(
-                    future: _fetch(),
+                    future: dataFetch,
                     builder: (context, snapshot) {
                       if (snapshot.connectionState != ConnectionState.done)
                         return Text('');
@@ -101,7 +138,7 @@ class _HomePageState extends State<HomePage> {
               ),
               Padding(
                 padding:
-                    const EdgeInsets.only(left: 50.0, top: 25.0, right: 50.0),
+                    const EdgeInsets.only(left: 60.0, top: 25.0, right: 60.0),
                 child: Column(
                   children: <Widget>[
                     Row(
@@ -119,7 +156,7 @@ class _HomePageState extends State<HomePage> {
                                 );
                               },
                               icon: Image.asset("assets/BotonCarnet.png"),
-                              iconSize: 80.0,
+                              iconSize: 70.0,
                             ),
                             Text('Carnet',
                                 style: GoogleFonts.quicksand(
@@ -134,7 +171,7 @@ class _HomePageState extends State<HomePage> {
                             IconButton(
                               onPressed: null,
                               icon: Image.asset("assets/BotonHorario.png"),
-                              iconSize: 80.0,
+                              iconSize: 70.0,
                             ),
                             Text('Horario',
                                 style: GoogleFonts.quicksand(
@@ -155,7 +192,7 @@ class _HomePageState extends State<HomePage> {
                                 );
                               },
                               icon: Image.asset("assets/BotonReservas.png"),
-                              iconSize: 80.0,
+                              iconSize: 70.0,
                             ),
                             Text('Reservas',
                                 style: GoogleFonts.quicksand(
@@ -191,7 +228,7 @@ class _HomePageState extends State<HomePage> {
                             IconButton(
                               onPressed: null,
                               icon: Image.asset("assets/BotonAgenda.png"),
-                              iconSize: 80.0,
+                              iconSize: 70.0,
                             ),
                             Text('Agenda',
                                 style: GoogleFonts.quicksand(
@@ -229,6 +266,18 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ],
               ),
+              SizedBox(
+                height: 250,
+                child: ScrollSnapList(
+                  initialIndex: 1,
+                  itemBuilder: _buildListItem,
+                  itemCount: investGroupsList.length,
+                  itemSize: 180,
+                  onItemFocus: (index) {},
+                  dynamicItemSize: true,
+                ),
+                //margin: EdgeInsets.symmetric(horizontal: 50)),
+              ),
               SizedBox(height: 100),
               MaterialButton(
                 onPressed: () {
@@ -238,6 +287,59 @@ class _HomePageState extends State<HomePage> {
                 child: Text('salir'),
               ),
             ],
+          ),
+        ),
+      ),
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Container(
+          width: 80,
+          height: 80,
+          child: FittedBox(
+            child: FloatingActionButton(
+              backgroundColor: Color.fromARGB(255, 255, 106, 0),
+              onPressed: () => setState(() {}),
+              tooltip: 'Increment Counter',
+              child: Image.asset('assets/BotonCarnet.png'),
+            ),
+          ),
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+    );
+  }
+
+  Widget buildCard() => Container(
+        width: 200,
+        height: 200,
+        color: Colors.red,
+      );
+
+  Widget _buildListItem(BuildContext context, int index) {
+    InvestGroups investGroups = investGroupsList[index];
+    return Container(
+      decoration: BoxDecoration(
+        border: Border.all(color: Colors.transparent, width: 1),
+        borderRadius: BorderRadius.all(Radius.circular(25)),
+      ),
+      width: 180,
+      height: 300,
+      child: Center(
+        child: Card(
+          color: Colors.transparent,
+          elevation: 0,
+          child: ClipRRect(
+            borderRadius: const BorderRadius.all(Radius.circular(25.0)),
+            child: Column(
+              children: [
+                Image.asset(
+                  investGroups.imagePath,
+                  fit: BoxFit.cover,
+                  width: 180,
+                  height: 240,
+                ),
+              ],
+            ),
           ),
         ),
       ),

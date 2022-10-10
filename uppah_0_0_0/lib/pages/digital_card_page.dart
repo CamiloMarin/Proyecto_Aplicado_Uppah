@@ -31,10 +31,7 @@ class _DigitalCardState extends State<DigitalCard> {
         backgroundColor: Color.fromARGB(255, 255, 255, 255),
         leading: (IconButton(
           onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const HomePage()),
-            );
+            Navigator.of(context).pop();
           },
           icon: Image.asset('assets/BackArrow.png'),
           iconSize: 60.0,
