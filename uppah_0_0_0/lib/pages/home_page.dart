@@ -103,7 +103,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                   Text(
-                    'Bienvenid@ ',
+                    'Bienvenidx ',
                     style: GoogleFonts.quicksand(
                       color: Color.fromARGB(255, 255, 106, 0),
                       fontWeight: FontWeight.w600,
@@ -249,19 +249,27 @@ class _HomePageState extends State<HomePage> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
-                    'Nuestros ',
-                    style: GoogleFonts.quicksand(
-                      color: Colors.black,
-                      fontWeight: FontWeight.w600,
-                      fontSize: 20.0,
-                    ),
-                  ),
-                  Text(
-                    'grupos de investigación',
+                    'Grupos ',
                     style: GoogleFonts.quicksand(
                       color: Color.fromARGB(255, 255, 106, 0),
                       fontWeight: FontWeight.w600,
-                      fontSize: 20.0,
+                      fontSize: 18.0,
+                    ),
+                  ),
+                  Text(
+                    'que podrían ser de tu ',
+                    style: GoogleFonts.quicksand(
+                      color: Colors.black,
+                      fontWeight: FontWeight.w600,
+                      fontSize: 18.0,
+                    ),
+                  ),
+                  Text(
+                    'interés',
+                    style: GoogleFonts.quicksand(
+                      color: Color.fromARGB(255, 255, 106, 0),
+                      fontWeight: FontWeight.w600,
+                      fontSize: 18.0,
                     ),
                   ),
                 ],

@@ -120,6 +120,13 @@ class _ProfilePageState extends State<ProfilePage> {
                             icon: Image.asset('assets/BackArrow_White.png'),
                             iconSize: 50.0,
                           ),
+                          IconButton(
+                            onPressed: () {
+                              //Navigator.of(context).pop();
+                            },
+                            icon: Image.asset('assets/EditUserBlanco.png'),
+                            iconSize: 50.0,
+                          ),
                         ],
                       ),
                     ),

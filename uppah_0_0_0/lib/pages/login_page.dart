@@ -105,21 +105,14 @@ class _LoginPageState extends State<LoginPage> {
                   width: 200),
               //Hello again!
               Text(
-                'Hola estudiante,',
+                '¡Bienvenido a Uppah!',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
-                  fontSize: 36,
-                ),
-              ),
-              SizedBox(height: 10),
-              Text(
-                '¡bienvenido de vuelta a Uppah!',
-                style: TextStyle(
                   fontSize: 20,
                 ),
-                textAlign: TextAlign.center,
               ),
-              SizedBox(height: 50),
+
+              SizedBox(height: 40),
               //Email textfield
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 50.0),
