@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:uppah_0_0_0/pages/NavBar.dart';
 import 'package:uppah_0_0_0/pages/home_page.dart';
 import 'package:uppah_0_0_0/pages/login_page.dart';
 

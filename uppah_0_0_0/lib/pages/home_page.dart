@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:uppah_0_0_0/pages/NavBar.dart';
 import 'package:scroll_snap_list/scroll_snap_list.dart';
 import 'package:uppah_0_0_0/pages/gym_page.dart';
 import 'package:uppah_0_0_0/pages/digital_card_page.dart';
@@ -17,6 +17,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  GlobalKey<ScaffoldState> _keyCoso = GlobalKey();
   final user = FirebaseAuth.instance.currentUser!;
 
   String myFirstName = '';
@@ -52,6 +53,8 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _keyCoso,
+      drawer: const NavBar(),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
@@ -213,7 +216,7 @@ class _HomePageState extends State<HomePage> {
                             IconButton(
                               onPressed: null,
                               icon: Image.asset("assets/BotonCalculadora.png"),
-                              iconSize: 80.0,
+                              iconSize: 70.0,
                             ),
                             Text('Calculadora',
                                 style: GoogleFonts.quicksand(
@@ -280,7 +283,7 @@ class _HomePageState extends State<HomePage> {
                   initialIndex: 1,
                   itemBuilder: _buildListItem,
                   itemCount: investGroupsList.length,
-                  itemSize: 180,
+                  itemSize: 200,
                   onItemFocus: (index) {},
                   dynamicItemSize: true,
                 ),
@@ -298,20 +301,66 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
       ),
-      floatingActionButton: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Container(
-          width: 80,
-          height: 80,
-          child: FittedBox(
-            child: FloatingActionButton(
-              backgroundColor: Color.fromARGB(255, 255, 106, 0),
-              onPressed: () => setState(() {}),
-              tooltip: 'Increment Counter',
-              child: Image.asset('assets/BotonCarnet.png'),
+      floatingActionButton: Wrap(
+        direction: Axis.horizontal,
+        children: <Widget>[
+          Container(
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: 20),
+              child: Container(
+                width: 80,
+                height: 80,
+                child: FittedBox(
+                  child: FloatingActionButton(
+                    heroTag: null,
+                    backgroundColor: Color.fromARGB(255, 255, 106, 0),
+                    onPressed: () {
+                      _keyCoso.currentState?.openDrawer();
+                    },
+                    tooltip: 'a cagar',
+                    child: Image.asset('assets/BotonFlotanteMenu.png'),
+                  ),
+                ),
+              ),
             ),
           ),
-        ),
+          Container(
+            child: Padding(
+              padding: const EdgeInsets.only(left: 20, right: 20, bottom: 20),
+              child: Container(
+                width: 80,
+                height: 80,
+                child: FittedBox(
+                  child: FloatingActionButton(
+                    heroTag: null,
+                    backgroundColor: Color.fromARGB(255, 255, 106, 0),
+                    onPressed: () => setState(() {}),
+                    tooltip: 'a cagar2',
+                    child: Image.asset('assets/BotonCarnet.png'),
+                  ),
+                ),
+              ),
+            ),
+          ),
+          Container(
+            child: Padding(
+              padding: const EdgeInsets.only(right: 10, bottom: 20),
+              child: Container(
+                width: 80,
+                height: 80,
+                child: FittedBox(
+                  child: FloatingActionButton(
+                    heroTag: null,
+                    backgroundColor: Color.fromARGB(255, 255, 106, 0),
+                    onPressed: () => setState(() {}),
+                    tooltip: 'a cagar3',
+                    child: Image.asset('assets/BotonFlotanteSoporte.png'),
+                  ),
+                ),
+              ),
+            ),
+          )
+        ],
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
@@ -330,7 +379,7 @@ class _HomePageState extends State<HomePage> {
         border: Border.all(color: Colors.transparent, width: 1),
         borderRadius: BorderRadius.all(Radius.circular(25)),
       ),
-      width: 180,
+      width: 200,
       height: 300,
       child: Center(
         child: Card(
@@ -343,7 +392,7 @@ class _HomePageState extends State<HomePage> {
                 Image.asset(
                   investGroups.imagePath,
                   fit: BoxFit.cover,
-                  width: 180,
+                  width: 200,
                   height: 240,
                 ),
               ],

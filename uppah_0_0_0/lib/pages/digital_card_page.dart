@@ -24,23 +24,33 @@ class _DigitalCardState extends State<DigitalCard> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 255, 255, 255),
-      appBar: AppBar(
-        toolbarHeight: 50, // tamaño del appbar
-        elevation: 0,
-        backgroundColor: Color.fromARGB(255, 255, 255, 255),
-        leading: (IconButton(
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-          icon: Image.asset('assets/BackArrow.png'),
-          iconSize: 60.0,
-        )),
-      ),
       body: Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          //mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            Padding(
+              padding:
+                  const EdgeInsets.only(left: 10.0, top: 50.0, right: 10.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  IconButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    icon: Image.asset('assets/BackArrow.png'),
+                    iconSize: 50.0,
+                  ),
+                  IconButton(
+                    onPressed: () {
+                      //Navigator.of(context).pop();
+                    },
+                    icon: Image.asset('assets/EditUserBlanco.png'),
+                    iconSize: 50.0,
+                  ),
+                ],
+              ),
+            ),
             Padding(
               padding: const EdgeInsets.only(top: 0.0, bottom: 00.0),
               child: Column(
@@ -88,20 +98,29 @@ class _DigitalCardState extends State<DigitalCard> {
             ),
             SizedBox(height: 0),
             Padding(
-              padding: const EdgeInsets.only(top: 20.0, bottom: 10.0),
+              padding: const EdgeInsets.only(top: 50.0, bottom: 10.0),
               child: Column(
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      IconButton(
-                        onPressed: () {
-                          // Se activa el nfc
-                        },
-                        icon: Image.asset("assets/unlocked (1).png"),
-                        iconSize: 100.0,
-                        splashRadius: 70,
+                      Container(
+                        decoration:
+                            BoxDecoration(shape: BoxShape.circle, boxShadow: [
+                          BoxShadow(
+                            color: Color.fromARGB(255, 226, 222, 222),
+                            blurRadius: 5.0,
+                          )
+                        ]),
+                        child: IconButton(
+                          onPressed: () {
+                            // Se activa el nfc
+                          },
+                          icon: Image.asset("assets/unlocked (1).png"),
+                          iconSize: 150.0,
+                          splashRadius: 70,
+                        ),
                       ),
                     ],
                   )
