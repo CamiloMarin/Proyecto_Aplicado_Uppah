@@ -33,7 +33,7 @@ dependencies:
   font_awesome_flutter: ^10.2.1
   image_picker: ^0.8.6
   scroll_snap_list: ^0.9.1
-  flutter_svg: ^0.17.4
+  flutter_svg: ^1.1.5
   flutter:
     sdk: flutter
   google_nav_bar: ^5.0.6
