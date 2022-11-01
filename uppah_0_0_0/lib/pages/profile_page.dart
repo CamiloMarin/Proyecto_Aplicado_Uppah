@@ -93,180 +93,223 @@ class _ProfilePageState extends State<ProfilePage> {
       }
     }
 
-    return Scaffold(
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              Container(
-                height: MediaQuery.of(context).size.width / 1.2,
-                decoration: const BoxDecoration(
-                    image: DecorationImage(
-                  image: AssetImage("assets/background_perfil.png"),
-                  fit: BoxFit.fill,
-                )),
-                child: Column(
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.only(
-                          left: 10.0, top: 10.0, right: 10.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          IconButton(
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
-                            icon: Image.asset('assets/BackArrow_White.png'),
-                            iconSize: 50.0,
-                          ),
-                          IconButton(
-                            onPressed: () {
-                              //Navigator.of(context).pop();
-                            },
-                            icon: Image.asset('assets/EditUserBlanco.png'),
-                            iconSize: 50.0,
-                          ),
-                        ],
-                      ),
-                    ),
-                    FutureBuilder(
-                      future: getDownloadUrl(myUID),
-                      builder: ((context, snapshot) {
-                        if (snapshot.connectionState == ConnectionState.done &&
-                            snapshot.hasData) {
-                          return Align(
-                            alignment: Alignment.center,
-                            child: CircleAvatar(
-                              radius: 92,
-                              backgroundColor: Colors.white,
-                              child: CircleAvatar(
-                                radius: 90,
+    return Container(
+      decoration: const BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage('assets/background_profile.jpeg'),
+          fit: BoxFit.fitHeight,
+        ),
+      ),
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        body: SafeArea(
+          child: Center(
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(top: 50),
+                  child: FutureBuilder(
+                    future: getDownloadUrl(myUID),
+                    builder: ((context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.done &&
+                          snapshot.hasData) {
+                        return Align(
+                          alignment: Alignment.center,
+                          child: Stack(
+                            children: [
+                              CircleAvatar(
+                                radius: 128,
                                 backgroundColor: Colors.white,
-                                child: ClipOval(
-                                  child: Material(
-                                      child: Image.network(
-                                    snapshot.data!,
-                                    fit: BoxFit.fitWidth,
-                                    width: 220,
-                                    height: 220,
-                                  )),
+                                child: CircleAvatar(
+                                  radius: 128,
+                                  backgroundColor: Colors.white,
+                                  child: ClipOval(
+                                    child: Material(
+                                        child: Image.network(
+                                      snapshot.data!,
+                                      fit: BoxFit.fitWidth,
+                                      width: 250,
+                                      height: 250,
+                                    )),
+                                  ),
                                 ),
                               ),
-                            ),
-                          );
-                        }
-                        if (snapshot.connectionState ==
-                                ConnectionState.waiting ||
-                            !snapshot.hasData) {
-                          return const CircularProgressIndicator();
-                        }
+                              Positioned(
+                                bottom: 0,
+                                right: 4,
+                                child: ClipOval(
+                                  child: Container(
+                                    width: 60,
+                                    height: 60,
+                                    color: Color.fromARGB(255, 255, 106, 0),
+                                    padding: EdgeInsets.all(10),
+                                    child: IconButton(
+                                      onPressed: () {
+                                        getImage();
+                                      },
+                                      icon: Icon(
+                                        FontAwesomeIcons.userPen,
+                                        size: 25.0,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
+                      }
+                      if (snapshot.connectionState == ConnectionState.waiting ||
+                          !snapshot.hasData) {
                         return const CircularProgressIndicator();
-                      }),
-                    ),
-                    IconButton(
-                        onPressed: () {
-                          getImage();
-                        },
-                        icon: Icon(
-                          FontAwesomeIcons.camera,
-                          size: 30.0,
-                          color: Colors.white,
-                        )),
-                  ],
-                ),
-              ),
-              SizedBox(
-                height: 50,
-              ),
-              SizedBox(
-                width: 300,
-                child: Center(
-                  child: Column(
-                    children: [
-                      FutureBuilder(
-                        future: dataFetch,
-                        builder: (context, snapshot) {
-                          if (snapshot.connectionState != ConnectionState.done)
-                            return Text('');
-                          return Text(
-                            "$myFirstName" + " $myLastName",
-                            style: GoogleFonts.quicksand(
-                              color: Colors.black,
-                              fontWeight: FontWeight.w400,
-                              fontSize: 25.0,
-                            ),
-                            textAlign: TextAlign.center,
-                          );
-                        },
-                      ),
-                      SizedBox(
-                        height: 25,
-                      ),
-                      FutureBuilder(
-                        future: dataFetch,
-                        builder: (context, snapshot) {
-                          if (snapshot.connectionState != ConnectionState.done)
-                            return Text('');
-                          return Text(
-                            "$myCareer",
-                            style: GoogleFonts.quicksand(
-                              color: Colors.black,
-                              fontWeight: FontWeight.w400,
-                              fontSize: 25.0,
-                            ),
-                            textAlign: TextAlign.center,
-                          );
-                        },
-                      ),
-                      SizedBox(
-                        height: 25,
-                      ),
-                      FutureBuilder(
-                        future: dataFetch,
-                        builder: (context, snapshot) {
-                          if (snapshot.connectionState != ConnectionState.done)
-                            return Text('');
-                          return Text(
-                            "$myEmail",
-                            style: GoogleFonts.quicksand(
-                              color: Colors.black,
-                              fontWeight: FontWeight.w400,
-                              fontSize: 25.0,
-                            ),
-                            textAlign: TextAlign.center,
-                          );
-                        },
-                      ),
-                      SizedBox(
-                        height: 25,
-                      ),
-                      FutureBuilder(
-                        future: dataFetch,
-                        builder: (context, snapshot) {
-                          if (snapshot.connectionState != ConnectionState.done)
-                            return Text('');
-                          return Text(
-                            "$myDocument",
-                            style: GoogleFonts.quicksand(
-                              color: Colors.black,
-                              fontWeight: FontWeight.w400,
-                              fontSize: 25.0,
-                            ),
-                            textAlign: TextAlign.center,
-                          );
-                        },
-                      ),
-                    ],
+                      }
+                      return const CircularProgressIndicator();
+                    }),
                   ),
                 ),
-              ),
-            ],
+                SizedBox(
+                  height: 50,
+                ),
+                SizedBox(
+                  width: 300,
+                  child: Center(
+                    child: Column(
+                      children: [
+                        FutureBuilder(
+                          future: dataFetch,
+                          builder: (context, snapshot) {
+                            if (snapshot.connectionState !=
+                                ConnectionState.done) return Text('');
+                            return Text(
+                              "$myFirstName" + " $myLastName",
+                              style: GoogleFonts.quicksand(
+                                color: Colors.black,
+                                fontWeight: FontWeight.w400,
+                                fontSize: 25.0,
+                              ),
+                              textAlign: TextAlign.center,
+                            );
+                          },
+                        ),
+                        Divider(
+                          height: 10,
+                          thickness: 1,
+                          color: Color.fromARGB(255, 255, 106, 0),
+                        ),
+                        SizedBox(
+                          height: 25,
+                        ),
+                        FutureBuilder(
+                          future: dataFetch,
+                          builder: (context, snapshot) {
+                            if (snapshot.connectionState !=
+                                ConnectionState.done) return Text('');
+                            return Text(
+                              "$myCareer",
+                              style: GoogleFonts.quicksand(
+                                color: Colors.black,
+                                fontWeight: FontWeight.w400,
+                                fontSize: 25.0,
+                              ),
+                              textAlign: TextAlign.center,
+                            );
+                          },
+                        ),
+                        Divider(
+                          height: 10,
+                          thickness: 1,
+                          color: Color.fromARGB(255, 255, 106, 0),
+                        ),
+                        SizedBox(
+                          height: 25,
+                        ),
+                        FutureBuilder(
+                          future: dataFetch,
+                          builder: (context, snapshot) {
+                            if (snapshot.connectionState !=
+                                ConnectionState.done) return Text('');
+                            return Text(
+                              "$myEmail",
+                              style: GoogleFonts.quicksand(
+                                color: Colors.black,
+                                fontWeight: FontWeight.w400,
+                                fontSize: 25.0,
+                              ),
+                              textAlign: TextAlign.center,
+                            );
+                          },
+                        ),
+                        Divider(
+                          height: 10,
+                          thickness: 1,
+                          color: Color.fromARGB(255, 255, 106, 0),
+                        ),
+                        SizedBox(
+                          height: 25,
+                        ),
+                        FutureBuilder(
+                          future: dataFetch,
+                          builder: (context, snapshot) {
+                            if (snapshot.connectionState !=
+                                ConnectionState.done) return Text('');
+                            return Text(
+                              "$myDocument",
+                              style: GoogleFonts.quicksand(
+                                color: Colors.black,
+                                fontWeight: FontWeight.w400,
+                                fontSize: 25.0,
+                              ),
+                              textAlign: TextAlign.center,
+                            );
+                          },
+                        ),
+                        Divider(
+                          height: 10,
+                          thickness: 1,
+                          color: Color.fromARGB(255, 255, 106, 0),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          backgroundColor: Colors.white,
+          child: Image.asset("assets/BackArrow.png"),
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
       ),
     );
   }
+
+  Widget buildEditIcon(Color color) => buildCircle(
+      child: Icon(
+        FontAwesomeIcons.camera,
+        size: 30.0,
+        color: Color.fromARGB(255, 0, 0, 0),
+      ),
+      all: 0,
+      color: color);
+
+  Widget buildCircle({
+    required Widget child,
+    required double all,
+    required Color color,
+  }) =>
+      ClipOval(
+        child: Container(
+          padding: EdgeInsets.all(all),
+          color: color,
+          child: child,
+        ),
+      );
 
   _fetch() async {
     final firebaseUser = FirebaseAuth.instance.currentUser!;

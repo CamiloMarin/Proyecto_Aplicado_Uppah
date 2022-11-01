@@ -53,175 +53,170 @@ class _DigitalCardState extends State<DigitalCard> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Column(
-          //mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Padding(
-              padding:
-                  const EdgeInsets.only(left: 10.0, top: 50.0, right: 10.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  IconButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                    icon: Image.asset('assets/BackArrow.png'),
-                    iconSize: 50.0,
-                  ),
-                  IconButton(
-                    onPressed: () {
-                      //Navigator.of(context).pop();
-                    },
-                    icon: Image.asset('assets/EditUserBlanco.png'),
-                    iconSize: 50.0,
-                  ),
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 0.0, bottom: 00.0),
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text(
-                        'Tú ',
-                        style: GoogleFonts.quicksand(
-                          color: Colors.black,
-                          fontWeight: FontWeight.w600,
-                          fontSize: 35.0,
+      body: SafeArea(
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(top: 20.0, bottom: 00.0),
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Tu ',
+                          style: GoogleFonts.quicksand(
+                            color: Colors.black,
+                            fontWeight: FontWeight.w600,
+                            fontSize: 35.0,
+                          ),
                         ),
-                      ),
-                      Text(
-                        'Carnet ',
-                        style: GoogleFonts.quicksand(
-                          color: Color.fromARGB(255, 255, 106, 0),
-                          fontWeight: FontWeight.w600,
-                          fontSize: 35.0,
+                        Text(
+                          'Carnet digital',
+                          style: GoogleFonts.quicksand(
+                            color: Color.fromARGB(255, 255, 106, 0),
+                            fontWeight: FontWeight.w600,
+                            fontSize: 35.0,
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                ],
+                      ],
+                    ),
+                  ],
+                ),
               ),
-            ),
-            SizedBox(height: 5),
-            Padding(
-              padding: const EdgeInsets.only(bottom: 00.0),
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Image.asset('assets/CarnetDigital.PNG',
-                          width: 288, height: 400, fit: BoxFit.cover)
-                    ],
-                  ),
-                ],
+              Divider(
+                height: 20,
+                thickness: 2,
+                indent: 80,
+                endIndent: 80,
+                color: Color.fromARGB(255, 255, 106, 0),
               ),
-            ),
-            SizedBox(height: 0),
-            Padding(
-              padding: const EdgeInsets.only(top: 50.0, bottom: 10.0),
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      IconButton(
-                        icon: isGreen ? Btn_verde : Btn_Rojo,
-                        onPressed: isEnabled
-                            ? () async {
-                                // se cambia el icono a verde**
-                                isEnabled = false;
-                                setState(() {
-                                  if (isEnabled == false) {
-                                    isGreen = !isGreen;
-                                  }
-                                });
-                                //vibra el celular
-                                Vibration.vibrate(duration: 700);
-
-                                /*  // Reviza si hay disponibilidad para usar el nfc en el dispositivo
-                                var availability =
-                                    await FlutterNfcKit.nfcAvailability;
-                                if (availability != NFCAvailability.available) {
-                                  //  oh sht..
-
-                                  await showDialog(
-                                    context: context,
-                                    builder: (context) => AlertDialog(
-                                      title: const Text('Hubo un problema'),
-                                      content: const Text(
-                                          'Dispositivo nfc (near field communication) inactivo o inexistente, por favor actívelo si es posible.'),
-                                      actions: <Widget>[
-                                        TextButton(
-                                          onPressed: () {
-                                            // Aqui se cambia el icono a rojo**
-
-                                            Navigator.of(context,
-                                                    rootNavigator: true)
-                                                .pop(); // dismisses only the dialog and returns nothing
-                                          },
-                                          child: Text('OK'),
-                                        ),
-                                      ],
-                                    ),
-                                  );
-                                } else {
-                                  // si hay disponibilidad del nfc:
-                                  print('ombe si funciona');
-
-                                  // timeout, si no se escanea nada en un tiempo determinado
-                                  var tag = await FlutterNfcKit.poll(
-                                    timeout: const Duration(seconds: 15),
-                                    androidPlatformSound: true,
-                                    androidCheckNDEF: false,
-                                    readIso14443A: true,
-                                    readIso14443B: true,
-                                    readIso15693: true,
-                                    readIso18092: false,
-                                  );
-
-                                  // write NDEF records if applicable
-                                  if (tag.ndefWritable ?? false) {
-                                    // decoded NDEF records
-                                    await FlutterNfcKit.writeNDEFRecords([
-                                      ndef.UriRecord.fromString(
-                                          "Hola Mundito :)")
-                                    ]);
-                                    // raw NDEF records
-                                    await FlutterNfcKit.writeNDEFRawRecords([
-                                      NDEFRawRecord("00", "0001", "0002",
-                                          ndef.TypeNameFormat.unknown)
-                                    ]);
-                                  }
+              SizedBox(height: 20),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 00.0),
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Image.asset('assets/CarnetDigital.PNG',
+                            width: 288, height: 400, fit: BoxFit.cover)
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(height: 0),
+              Padding(
+                padding: const EdgeInsets.only(top: 50.0, bottom: 10.0),
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        IconButton(
+                          icon: isGreen ? Btn_verde : Btn_Rojo,
+                          onPressed: isEnabled
+                              ? () async {
+                                  // se cambia el icono a verde**
+                                  isEnabled = false;
                                   setState(() {
-                                    isEnabled = true;
-                                    print('ADIOSSSS');
+                                    if (isEnabled == false) {
+                                      isGreen = !isGreen;
+                                    }
                                   });
-                                  // Call finish() only once
-                                  await FlutterNfcKit.finish();
-                                } */
-                              }
-                            : null,
-                        iconSize: 100.0,
-                        splashRadius: 70,
-                      ),
-                    ],
-                  )
-                ],
+                                  //vibra el celular
+                                  Vibration.vibrate(duration: 700);
+
+                                  /*  // Reviza si hay disponibilidad para usar el nfc en el dispositivo
+                                  var availability =
+                                      await FlutterNfcKit.nfcAvailability;
+                                  if (availability != NFCAvailability.available) {
+                                    //  oh sht..
+      
+                                    await showDialog(
+                                      context: context,
+                                      builder: (context) => AlertDialog(
+                                        title: const Text('Hubo un problema'),
+                                        content: const Text(
+                                            'Dispositivo nfc (near field communication) inactivo o inexistente, por favor actívelo si es posible.'),
+                                        actions: <Widget>[
+                                          TextButton(
+                                            onPressed: () {
+                                              // Aqui se cambia el icono a rojo**
+      
+                                              Navigator.of(context,
+                                                      rootNavigator: true)
+                                                  .pop(); // dismisses only the dialog and returns nothing
+                                            },
+                                            child: Text('OK'),
+                                          ),
+                                        ],
+                                      ),
+                                    );
+                                  } else {
+                                    // si hay disponibilidad del nfc:
+                                    print('ombe si funciona');
+      
+                                    // timeout, si no se escanea nada en un tiempo determinado
+                                    var tag = await FlutterNfcKit.poll(
+                                      timeout: const Duration(seconds: 15),
+                                      androidPlatformSound: true,
+                                      androidCheckNDEF: false,
+                                      readIso14443A: true,
+                                      readIso14443B: true,
+                                      readIso15693: true,
+                                      readIso18092: false,
+                                    );
+      
+                                    // write NDEF records if applicable
+                                    if (tag.ndefWritable ?? false) {
+                                      // decoded NDEF records
+                                      await FlutterNfcKit.writeNDEFRecords([
+                                        ndef.UriRecord.fromString(
+                                            "Hola Mundito :)")
+                                      ]);
+                                      // raw NDEF records
+                                      await FlutterNfcKit.writeNDEFRawRecords([
+                                        NDEFRawRecord("00", "0001", "0002",
+                                            ndef.TypeNameFormat.unknown)
+                                      ]);
+                                    }
+                                    setState(() {
+                                      isEnabled = true;
+                                      print('ADIOSSSS');
+                                    });
+                                    // Call finish() only once
+                                    await FlutterNfcKit.finish();
+                                  } */
+                                }
+                              : null,
+                          iconSize: 100.0,
+                          splashRadius: 70,
+                        ),
+                      ],
+                    )
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.of(context).pop();
+        },
+        backgroundColor: Colors.white,
+        child: Image.asset("assets/BackArrow.png"),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
     );
   }
 

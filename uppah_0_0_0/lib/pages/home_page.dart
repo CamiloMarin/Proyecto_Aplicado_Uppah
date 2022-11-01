@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:uppah_0_0_0/pages/NavBar.dart';
 import 'package:scroll_snap_list/scroll_snap_list.dart';
 import 'package:uppah_0_0_0/pages/gym_page.dart';
+import 'package:uppah_0_0_0/pages/reservas_page.dart';
 import 'package:uppah_0_0_0/pages/digital_card_page.dart';
 import 'package:uppah_0_0_0/pages/profile_page.dart';
 import 'package:uppah_0_0_0/utils/invest_groups.dart';
@@ -191,7 +192,8 @@ class _HomePageState extends State<HomePage> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => const GymPage()),
+                                      builder: (context) =>
+                                          const ReservasPage()),
                                 );
                               },
                               icon: Image.asset("assets/BotonReservas.png"),
@@ -289,14 +291,6 @@ class _HomePageState extends State<HomePage> {
                 ),
                 //margin: EdgeInsets.symmetric(horizontal: 50)),
               ),
-              SizedBox(height: 100),
-              MaterialButton(
-                onPressed: () {
-                  FirebaseAuth.instance.signOut();
-                },
-                color: Colors.amber,
-                child: Text('salir'),
-              ),
             ],
           ),
         ),
@@ -334,7 +328,13 @@ class _HomePageState extends State<HomePage> {
                   child: FloatingActionButton(
                     heroTag: null,
                     backgroundColor: Color.fromARGB(255, 255, 106, 0),
-                    onPressed: () => setState(() {}),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const DigitalCard()),
+                      );
+                    },
                     tooltip: 'a cagar2',
                     child: Image.asset('assets/BotonCarnet.png'),
                   ),

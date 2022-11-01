@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:uppah_0_0_0/pages/profile_page.dart';
 
 String? myFirstName;
 String? myLastName;
@@ -59,29 +60,37 @@ class NavBar extends StatelessWidget {
                   fit: BoxFit.cover,
                 ),
               )),
-          Padding(
-            padding: const EdgeInsets.only(top: 10, bottom: 10),
-            child: Material(
-              elevation: 5,
-              child: Container(
-                color: Color.fromARGB(255, 255, 106, 0),
-                height: 62,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
-                  child: ListTile(
-                    leading: SizedBox(
-                        height: 35,
-                        child: Image.asset('assets/navbar_icons/user.png')),
-                    title: Text('Mi Perfil',
-                        style: GoogleFonts.quicksand(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w600,
-                          fontSize: 17.0,
-                        )),
-                    trailing: SizedBox(
-                        height: 40,
-                        child: Image.asset(
-                            'assets/navbar_icons/angle-small-right.png')),
+          GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const ProfilePage()),
+              );
+            },
+            child: Padding(
+              padding: const EdgeInsets.only(top: 10, bottom: 10),
+              child: Material(
+                elevation: 5,
+                child: Container(
+                  color: Color.fromARGB(255, 255, 106, 0),
+                  height: 62,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    child: ListTile(
+                      leading: SizedBox(
+                          height: 35,
+                          child: Image.asset('assets/navbar_icons/user.png')),
+                      title: Text('Mi Perfil',
+                          style: GoogleFonts.quicksand(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w600,
+                            fontSize: 17.0,
+                          )),
+                      trailing: SizedBox(
+                          height: 40,
+                          child: Image.asset(
+                              'assets/navbar_icons/angle-small-right.png')),
+                    ),
                   ),
                 ),
               ),
@@ -143,7 +152,131 @@ class NavBar extends StatelessWidget {
                 ),
               ),
             ),
-          )
+          ),
+          Divider(
+            height: 25,
+            thickness: 1,
+            color: Colors.white,
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 10, bottom: 10),
+            child: Material(
+              elevation: 5,
+              child: Container(
+                color: Color.fromARGB(255, 255, 106, 0),
+                height: 62,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  child: ListTile(
+                    leading: SizedBox(
+                        height: 35,
+                        child: Image.asset('assets/navbar_icons/headset.png')),
+                    title: Text('Soporte',
+                        style: GoogleFonts.quicksand(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 17.0,
+                        )),
+                    trailing: SizedBox(
+                        height: 40,
+                        child: Image.asset(
+                            'assets/navbar_icons/angle-small-right.png')),
+                  ),
+                ),
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 10, bottom: 10),
+            child: Material(
+              elevation: 5,
+              child: Container(
+                color: Color.fromARGB(255, 255, 106, 0),
+                height: 62,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  child: ListTile(
+                    leading: SizedBox(
+                        height: 35,
+                        child: Image.asset('assets/navbar_icons/info.png')),
+                    title: Text('Términos y condiciones',
+                        style: GoogleFonts.quicksand(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 17.0,
+                        )),
+                    trailing: SizedBox(
+                        height: 40,
+                        child: Image.asset(
+                            'assets/navbar_icons/angle-small-right.png')),
+                  ),
+                ),
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 10, bottom: 10),
+            child: Material(
+              elevation: 5,
+              child: Container(
+                color: Color.fromARGB(255, 255, 106, 0),
+                height: 62,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  child: ListTile(
+                    leading: SizedBox(
+                        height: 35,
+                        child: Image.asset('assets/navbar_icons/info.png')),
+                    title: Text('Política de privacidad',
+                        style: GoogleFonts.quicksand(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 17.0,
+                        )),
+                    trailing: SizedBox(
+                        height: 40,
+                        child: Image.asset(
+                            'assets/navbar_icons/angle-small-right.png')),
+                  ),
+                ),
+              ),
+            ),
+          ),
+          Divider(
+            height: 25,
+            thickness: 1,
+            color: Colors.white,
+          ),
+          GestureDetector(
+            onTap: () {
+              FirebaseAuth.instance.signOut();
+            },
+            child: Padding(
+              padding: const EdgeInsets.only(top: 10, bottom: 10),
+              child: Material(
+                elevation: 5,
+                child: Container(
+                  color: Color.fromARGB(255, 255, 106, 0),
+                  height: 62,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    child: ListTile(
+                      leading: SizedBox(
+                          height: 35,
+                          child: Image.asset(
+                              'assets/navbar_icons/sign-out-alt.png')),
+                      title: Text('Cerrar sesión',
+                          style: GoogleFonts.quicksand(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w600,
+                            fontSize: 17.0,
+                          )),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
         ],
       ),
     );

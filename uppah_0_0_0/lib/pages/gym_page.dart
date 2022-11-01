@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:uppah_0_0_0/pages/home_page.dart';
@@ -32,35 +33,67 @@ class _GymPageState extends State<GymPage> {
   final dias = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes'];
 
   @override
+  void initState() {
+    super.initState();
+    _getDataFetch();
+  }
+
+  _getDataFetch() async {
+    return _fetch();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: FutureBuilder(
-          future: _fetch(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState != ConnectionState.done)
-              return Text('Cargando...');
-            return Text("Hola $myFirstName");
-          },
+    return Container(
+      decoration: const BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage('assets/background_gym.jpeg'),
+          fit: BoxFit.fitHeight,
         ),
-        centerTitle: true,
-        backgroundColor: Colors.amber[200],
       ),
-      body: SafeArea(
-        child: Center(
-          child: SingleChildScrollView(
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        body: SafeArea(
+          child: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Reserva de gimnasio',
+                      style: GoogleFonts.quicksand(
+                        color: Colors.black,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 30.0,
+                      ),
+                    ),
+                  ],
+                ),
+                Divider(
+                  height: 20,
+                  thickness: 2,
+                  indent: 80,
+                  endIndent: 80,
+                  color: Color.fromARGB(255, 255, 106, 0),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
                 Text(
                   'Elige el día',
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  textAlign: TextAlign.left,
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.normal),
                 ),
                 Container(
-                  margin: EdgeInsets.symmetric(horizontal: 22, vertical: 5),
+                  margin: EdgeInsets.symmetric(horizontal: 50, vertical: 5),
                   padding: EdgeInsets.symmetric(horizontal: 12, vertical: 4),
                   decoration: BoxDecoration(
-                    border: Border.all(color: Colors.grey, width: 1),
+                    color: Colors.grey[200],
+                    borderRadius: BorderRadius.circular(12),
                   ),
                   child: DropdownButtonHideUnderline(
                     child: DropdownButton<String>(
@@ -72,15 +105,17 @@ class _GymPageState extends State<GymPage> {
                     ),
                   ),
                 ),
+                SizedBox(height: 25),
                 Text(
                   'Elige tu turno',
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.normal),
                 ),
                 Container(
-                  margin: EdgeInsets.symmetric(horizontal: 22, vertical: 5),
+                  margin: EdgeInsets.symmetric(horizontal: 50, vertical: 5),
                   padding: EdgeInsets.symmetric(horizontal: 12, vertical: 4),
                   decoration: BoxDecoration(
-                    border: Border.all(color: Colors.grey, width: 1),
+                    color: Colors.grey[200],
+                    borderRadius: BorderRadius.circular(12),
                   ),
                   child: DropdownButtonHideUnderline(
                     child: DropdownButton<String>(
@@ -91,26 +126,21 @@ class _GymPageState extends State<GymPage> {
                     ),
                   ),
                 ),
-                SizedBox(height: 25),
-                GestureDetector(
-                  onTap: () => sendEmail(
-                    day: value_dias.toString(),
-                    turno: value.toString(),
-                  ),
-                  child: Container(
-                    margin: EdgeInsets.symmetric(horizontal: 50),
-                    padding: EdgeInsets.all(20),
-                    decoration: BoxDecoration(
-                        color: Colors.orange[900],
-                        borderRadius: BorderRadius.circular(12)),
-                    child: Center(
-                      child: Text(
-                        'Reservar',
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18),
-                      ),
+                SizedBox(height: 40),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                  child: SizedBox(
+                    width: 150,
+                    height: 50,
+                    child: ElevatedButton(
+                      child: Text('Enviar reserva'),
+                      style: ElevatedButton.styleFrom(
+                          textStyle: const TextStyle(fontSize: 18)),
+
+                      onPressed: () => sendEmail(
+                        day: value_dias.toString(),
+                        turno: value.toString(),
+                      ), //signUp,
                     ),
                   ),
                 ),
@@ -118,6 +148,14 @@ class _GymPageState extends State<GymPage> {
             ),
           ),
         ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          backgroundColor: Colors.white,
+          child: Image.asset("assets/BackArrow.png"),
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
       ),
     );
   }
@@ -155,16 +193,27 @@ class _GymPageState extends State<GymPage> {
           }));
       Alert(
         //se puede usar el atributo de style
-        type: AlertType.success,
+
         context: context,
-        title: "Correo enviado",
+
+        image: Image.asset(
+          "assets/uppah_simple_orange.png",
+          width: 50,
+        ),
         desc:
-            "Tu reserva se envió con éxito, recuerda estar pendiente de tu correo para ver la respuesta",
+            "Tu reserva se ha enviado con éxito, no olvides revisar tu correo para ver la confirmación.",
         buttons: [
           DialogButton(
+            radius: BorderRadius.all(Radius.circular(20)),
+            color: Colors.white,
+            border: Border.fromBorderSide((BorderSide(
+                color: const Color.fromARGB(255, 255, 106, 0),
+                width: 1,
+                style: BorderStyle.solid))),
             child: Text(
               "Listo!",
-              style: TextStyle(color: Colors.white, fontSize: 20),
+              style: TextStyle(
+                  color: const Color.fromARGB(255, 255, 106, 0), fontSize: 20),
             ),
             onPressed: () => Navigator.pop(context),
             width: 120,
